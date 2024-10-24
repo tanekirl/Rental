@@ -1,0 +1,47 @@
+﻿@model Rental.Data.Models.Car
+
+@{
+    Layout = "_Layout";
+}
+
+<h1>@Model.name</h1>
+<img src="@Model.img" alt="@Model.name" class="img-thumbnail" />
+<h4>Опис: @Model.longDesc</h4>
+<p>Кількість сидінь: @Model.seatingCapacity</p>
+<p>Тип кузова: @Model.bodyType</p>
+<p>Кількість сил: @Model.horsepower</p>
+<p>Об'єм двигуна: @Model.engineDisplacement л</p>
+<p>Тип пального: @Model.fuelType</p>
+<p>Колір: @Model.color</p>
+<p>Коробка передач: @Model.transmission</p>
+
+<h4>Галерея</h4>
+@if (Model.Images != null && Model.Images.Any())
+{
+    <div id="carCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @{
+                var imageList = Model.Images.ToList();
+                for (int i = 0; i < imageList.Count; i++)
+                {
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        <img src="@imageList[i].Url" class="d-block w-100" alt="@Model.name" />
+                    </div>
+                }
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+}
+else
+{
+    <p>Немає зображень для показу.</p>
+}
+

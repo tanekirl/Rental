@@ -1,0 +1,11 @@
+﻿AllCars.cshtml
+@model Car
+
+<div class="col-lg-4">
+    <img class="img-thumbnail" src="@Model.img" alt="@Model.name" />
+    <h2>@Model.name</h2>
+    <p>@Model.shortDesc</p>
+    <p>Ціна за добу: @Model.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))</p>
+    <p><a class="btn btn-warning" asp-controller="RentalCart" asp-action="addToCart" asp-route-id="@Model.id">Додати у кошик</a></p>
+    <p><a class="btn btn-info" asp-controller="CarDetails" asp-action="Index" asp-route-id="@Model.id">Детальніше</a></p> <!-- New button -->
+</div>

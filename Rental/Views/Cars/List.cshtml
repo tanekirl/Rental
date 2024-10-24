@@ -1,0 +1,16 @@
+﻿List.cshtml
+@{
+    Layout = "_Layout";
+}
+
+<h1>Всі авто</h1>
+<h3>@Model.currCategory</h3>
+<div class="row mt-5 mb-2">
+
+    @{
+        foreach (Car car in Model.allCars)
+        {
+            @Html.Partial("AllCars", car)
+        }
+    }
+</div>

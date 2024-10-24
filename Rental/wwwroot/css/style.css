@@ -1,0 +1,22 @@
+﻿body {
+    background: #8c8c8c;
+    color: #dfe1e1; /* Світлий колір тексту */
+}
+
+h1, h2, h3, p {
+    color: #dfe1e1; /* Зробимо заголовки та текст світлішими */
+}
+
+a {
+    color: #dfe1e1; /* Колір посилань */
+}
+
+a.btn-warning {
+    color: #8c8c8c; /* Темний текст для кнопок */
+    background-color: #181818;
+    border-color: #181818;
+}
+
+btn {
+    margin-top: 10px; /* Додає відступ зверху */
+}

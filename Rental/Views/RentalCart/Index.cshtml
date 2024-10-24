@@ -1,0 +1,17 @@
+﻿Index.cshtml
+@{
+    Layout = "_Layout";
+}
+
+@model RentalCartViewModel
+<div class="container">
+    @foreach (var el in Model.rentalCart.listRentalItems)
+    {
+        <div class="alert alert-warning mt-3">
+            <b>Автомобіль:</b>@el.car.name<br />
+            <b>Ціна за добу</b> @el.car.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))
+        </div>
+    }
+    <hr />
+    <a class="btn btn-danger" asp-controller="Order" asp-action="Checkout">Оплатити</a>
+</div>
