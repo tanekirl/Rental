@@ -3,7 +3,7 @@ using Rental.Data.Models;
 
 namespace Rental.Data
 {
-    public class AppDBContent : DbContext
+    public class AppDBContent : IdentityDBContext
     {
         public AppDBContent(DbContextOptions<AppDBContent> options) : base(options) { }
 

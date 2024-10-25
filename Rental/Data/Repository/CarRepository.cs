@@ -23,7 +23,10 @@ namespace Rental.Data.Repository
         public Car GetCar(int id)
         {
             // Використання Include з правильним простором імен
-            return appDBContent.Car.Include(c => c.Category).FirstOrDefault(c => c.id == id);
+            return appDBContent.Car
+                .Include(c => c.Category)
+                .Include(c => c.Images)
+                .FirstOrDefault(c => c.id == id);
         }
     }
 }

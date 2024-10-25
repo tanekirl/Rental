@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Rental.Data.Models.Car>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.shortDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.longDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.img)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isFavourite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.available)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.seatingCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.bodyType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.horsepower)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.engineDisplacement)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fuelType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.color)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.transmission)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.shortDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.longDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.img)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.isFavourite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.available)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.seatingCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.bodyType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.horsepower)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.engineDisplacement)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fuelType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.color)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.transmission)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
