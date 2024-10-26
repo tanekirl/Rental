@@ -1,4 +1,6 @@
-﻿namespace Rental.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Rental.Data.Models
 {
     public class OrderDetail
     {
@@ -9,6 +11,5 @@
         public decimal price { get; set; }
         public virtual Car car { get; set; }
         public virtual Order order { get; set; }
-
     }
 }

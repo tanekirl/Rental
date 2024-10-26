@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 using Rental.Data.Models;
 using System.Diagnostics.CodeAnalysis;
 
@@ -6,8 +7,26 @@ namespace Rental.Data
 {
     public class DBObjects
     {
-        public static void Initial(AppDBContent content)
+
+        public static async Task  Initial(AppDBContent content, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
         {
+
+            const string adminEmail = "admin@gmail.com";
+           var user = await userManager.FindByEmailAsync(adminEmail);
+            if (user == null)
+            {
+                var defaultUser = new User() { Email = adminEmail, UserName = adminEmail };
+                await userManager.CreateAsync(defaultUser, "password");
+                user = defaultUser;
+            }
+            if (!await roleManager.RoleExistsAsync("Admin"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            if (!await userManager.IsInRoleAsync(user, "Admin"))
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
 
 
 

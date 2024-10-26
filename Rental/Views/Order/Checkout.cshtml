@@ -1,5 +1,4 @@
-﻿Checkout.cshtml
-@{
+﻿@{
     Layout = "_Layout";
 }
 
@@ -41,6 +40,20 @@
             <div class="col-md-5">
                 <input asp-for="email" class="form-control" />
                 <span asp-validation-for="email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="RentalStart"></label>
+            <div class="col-md-5">
+                <input asp-for="RentalStart" type="date" class="form-control" />
+                <span asp-validation-for="RentalStart" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="RentalEnd"></label>
+            <div class="col-md-5">
+                <input asp-for="RentalEnd" type="date" class="form-control" />
+                <span asp-validation-for="RentalEnd" class="text-danger"></span>
             </div>
         </div>
         <input class="btn btn-success" type="submit" value="Завершити замовлення" />

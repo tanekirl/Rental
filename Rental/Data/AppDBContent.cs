@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Rental.Data.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Rental.Data
 {
-    public class AppDBContent : IdentityDBContext
+    public class AppDBContent : IdentityDbContext<User>
     {
         public AppDBContent(DbContextOptions<AppDBContent> options) : base(options) { }
 
@@ -28,6 +30,7 @@ namespace Rental.Data
                 .HasOne(ci => ci.Car)
                 .WithMany(c => c.Images) // Вказуємо, що Car має багато зображень
                 .HasForeignKey(ci => ci.CarId); // Визначаємо зовнішній ключ
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

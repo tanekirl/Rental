@@ -1,40 +1,57 @@
-using Rental.Data.interfaces; // Ваші using
+using Rental.Data.interfaces; // пїЅпїЅпїЅпїЅ using
 using Rental.Data.mocks;
-using Rental.Data; // Простір імен, де знаходиться AppDBContent
-using Microsoft.EntityFrameworkCore; // Для підключення до бази даних
+using Rental.Data; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ AppDBContent
+using Microsoft.EntityFrameworkCore; // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 using Rental.Data.Repository;
-using Rental.Data.Models; // Простір імен для моделей
+using Rental.Data.Models; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Додавання конфігурації з файлу dbsettings.json
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ dbsettings.json
 IConfigurationRoot _confString = new ConfigurationBuilder()
     .SetBasePath(builder.Environment.ContentRootPath)
     .AddJsonFile("dbsettings.json")
     .Build();
 
-// Додавання служб
-builder.Services.AddMvc(options => options.EnableEndpointRouting = false); // Додавання підтримки MVC без маршрутизації на кінцеві точки
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+builder.Services.AddMvc(options => options.EnableEndpointRouting = false); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ MVC пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
-// Підключення до бази даних
+// ПіпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddDbContext<AppDBContent>(options =>
     options.UseSqlServer(_confString.GetConnectionString("DefaultConnection")));
 
-// Додаємо ваші сервіси
+//builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDBContent>();
+
+builder.Services.AddIdentity<User, IdentityRole>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredUniqueChars = 0;
+    options.Password.RequiredLength = 6;
+})
+    .AddEntityFrameworkStores<AppDBContent>()
+    .AddDefaultTokenProviders();
+
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddTransient<IAllCars, CarRepository>();
 builder.Services.AddTransient<ICarsCategory, CategoryRepository>();
 builder.Services.AddTransient<IAllOrders, OrdersRepository>();
 
-// Додавання підтримки для IHttpContextAccessor, сесій і корзини
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ IHttpContextAccessor, пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped(sp => RentalCart.GetCart(sp));
 
-builder.Services.AddMemoryCache(); // Для використання кешування
-builder.Services.AddSession(); // Додавання підтримки сесій
+builder.Services.AddMemoryCache(); // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+builder.Services.AddSession(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 
 var app = builder.Build();
 
-// Налаштування конвеєра обробки запитів
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -50,8 +67,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseSession(); // Додайте використання сесій перед використанням маршрутизації
+app.UseSession(); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -59,6 +77,7 @@ app.MapControllerRoute(
     pattern: "CarDetails/{id:int}",
     defaults: new { controller = "CarDetails", action = "Index" });
 
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
@@ -68,11 +87,13 @@ app.MapControllerRoute(
     name: "categoryFilter",
     pattern: "{controller=Cars}/{action}/{category?}");
 
-// Ініціалізація бази даних
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 using (var scope = app.Services.CreateScope())
 {
-    AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
-    DBObjects.Initial(content);
+    AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>(); 
+    UserManager<User> userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await DBObjects.Initial(content, userManager, roleManager);
 }
 
 app.Run();

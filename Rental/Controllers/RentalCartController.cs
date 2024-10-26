@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rental.Data.interfaces;
 using Rental.Data.Models;
 using Rental.ViewModels;
 
 namespace Rental.Controllers
 {
+    [Authorize]
     public class RentalCartController : Controller
     {
         private readonly IAllCars _carRep;

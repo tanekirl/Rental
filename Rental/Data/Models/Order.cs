@@ -42,6 +42,9 @@ namespace Rental.Data.Models
         [ScaffoldColumn(false)]
         public DateTime OrderTime { get; set; }
 
+        public DateTime RentalStart { get; set; }
+        public DateTime RentalEnd { get; set; }
+
 
         public List<OrderDetail> orderDetails { get; set; }
 

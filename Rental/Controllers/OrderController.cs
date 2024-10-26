@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Rental.Data;
 using Rental.Data.interfaces;
 using Rental.Data.Models;
 
 namespace Rental.Controllers
 {
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IAllOrders allorders;

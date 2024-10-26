@@ -1,6 +1,8 @@
-﻿namespace Rental.Data.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Rental.Data.Models
 {
-    public class User
+    public class User : IdentityUser
     {
     }
 }
