@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Rental.Data.Models
@@ -46,7 +47,7 @@ namespace Rental.Data.Models
         public DateTime RentalEnd { get; set; }
 
 
-        public List<OrderDetail> orderDetails { get; set; }
+        [ValidateNever] public List<OrderDetail> orderDetails { get; set; } = new();
 
 
     }

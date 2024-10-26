@@ -19,9 +19,6 @@ namespace Rental.Data.Repository
         public void createOrder(Order order)
         {
 
-            order.OrderTime = DateTime.Now;
-            appDBContent.Order.Add(order);
-
             var items = rentalCart.listRentalItems;
 
             foreach (var el in items)
@@ -29,11 +26,17 @@ namespace Rental.Data.Repository
                 var orderDetail = new OrderDetail()
                 {
                     CarID = el.car.id,
-                    orderID = order.id,
+                    order = order,
                     price = el.car.price
                 };
-                appDBContent.OrderDetail.Add(orderDetail);
+                order.orderDetails.Add(orderDetail);
             }
+            order.OrderTime = DateTime.Now;
+
+            appDBContent.Order.Add(order);
+
+
+
             appDBContent.SaveChanges();
         }
     }

@@ -44,6 +44,16 @@ namespace Rental.Data.Models
             appDBContent.SaveChanges();
         }
 
+        public void RemoveFromCart(int id)
+        {
+            var item = appDBContent.RentalCartItem.FirstOrDefault(r => r.id == id);
+            if (item != null)
+            {
+                appDBContent.RentalCartItem.Remove(item);
+                appDBContent.SaveChanges();
+            }
+        }
+
         public List<RentalCartItem> getRentalItems()
         {
             return appDBContent.RentalCartItem.Where(c => c.RentalCartId == RentalCartId).Include(s => s.car).ToList();

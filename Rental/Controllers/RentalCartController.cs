@@ -43,6 +43,11 @@ namespace Rental.Controllers
             return RedirectToAction("Index");
         }
 
-
+        [HttpPost]
+        public RedirectToActionResult removeFromCart(int id)
+        {
+            _rentalCart.RemoveFromCart(id);
+            return RedirectToAction("Index");
+        }
     }
 }

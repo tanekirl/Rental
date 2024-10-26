@@ -11,6 +11,10 @@
             <div class="alert alert-warning mt-3">
                 <b>Автомобіль:</b>@el.car.name<br />
                 <b>Ціна за добу</b> @el.car.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))
+                <form method="post" asp-controller="RentalCart" asp-action="removeFromCart">
+                    <input type="hidden" name="id" value="@el.id"/>
+                    <button type="submit" class="btn btn-danger">x</button>
+                </form>
             </div>
         }
         <hr />
