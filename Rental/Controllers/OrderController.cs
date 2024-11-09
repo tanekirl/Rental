@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rental.Data;
 using Rental.Data.interfaces;
 using Rental.Data.Models;
+using System.Linq;
 
 namespace Rental.Controllers
 {
@@ -18,39 +19,67 @@ namespace Rental.Controllers
             this.rentalCart = rentalCart;
         }
 
+        // GET: Order/Checkout
         public IActionResult Checkout()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Checkout(Order order)
-        {
+            // Отримуємо всі елементи кошика
             rentalCart.listRentalItems = rentalCart.getRentalItems();
 
+            // Перевіряємо, чи кошик порожній
             if (rentalCart.listRentalItems.Count == 0)
             {
                 ModelState.AddModelError("", "Ваш кошик пустий");
             }
 
-            if (ModelState.IsValid)
+            // Створюємо деталі замовлення на основі елементів кошика
+            var orderDetails = rentalCart.listRentalItems.Select(item => new OrderDetail
             {
-                allorders.createOrder(order);
-                return RedirectToAction("Complete"); // Це правильно
-            }
+                car = item.car,  // Переконайтеся, що item.Car != null
+                price = item.car?.price ?? 0  // Якщо ціна машини null, заміняємо на 0
+            }).ToList();
 
+            // Створюємо об'єкт замовлення з деталями
+            var order = new Order
+            {
+                orderDetails = orderDetails
+            };
 
+            // Обчислюємо загальну суму замовлення
+            decimal totalPrice = rentalCart.listRentalItems.Sum(item => item.car?.price ?? 0);
+            ViewBag.TotalPrice = totalPrice;  // Передаємо через ViewBag для відображення в представленні
 
-            return View(order);
+            return View(order);  // Передаємо модель в представлення
         }
 
+        // POST: Order/Checkout
+        [HttpPost]
+        public IActionResult Checkout(Order order)
+        {
+            // Отримуємо елементи кошика
+            rentalCart.listRentalItems = rentalCart.getRentalItems();
+
+            // Перевіряємо, чи кошик порожній
+            if (rentalCart.listRentalItems.Count == 0)
+            {
+                ModelState.AddModelError("", "Ваш кошик пустий");
+            }
+
+            // Якщо модель коректна, зберігаємо замовлення і очищаємо кошик
+            if (ModelState.IsValid)
+            {
+                allorders.createOrder(order);  // Створення замовлення
+                rentalCart.ClearCart();         // Очищення кошика після оформлення замовлення
+                return RedirectToAction("Complete");  // Перехід до сторінки підтвердження
+            }
+
+            return View(order);  // Повертаємо на сторінку оформлення, якщо є помилки
+        }
+
+        // Сторінка підтвердження замовлення
         public IActionResult Complete()
         {
             ViewBag.Message = "Оренда була успішно оброблена";
             return View();
         }
-
-
-
     }
 }

@@ -7,6 +7,16 @@
 <div class="row">
     <h3>Оформлення оренди</h3>
     <form asp-action="Checkout" method="post" class="form-horizontal">
+        <h4>Автомобілі в кошику:</h4>
+        <ul id="carList">
+            @foreach (var item in Model.orderDetails)
+            {
+                <li data-price="@item.price">
+                    @item.car.name - @item.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))
+                </li>
+            }
+        </ul>
+
         <div class="form-group">
             <label asp-for="name"></label>
             <div class="col-md-5">
@@ -14,6 +24,7 @@
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="surname"></label>
             <div class="col-md-5">
@@ -21,6 +32,7 @@
                 <span asp-validation-for="surname" class="text-danger"></span>
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="adress"></label>
             <div class="col-md-5">
@@ -28,6 +40,7 @@
                 <span asp-validation-for="adress" class="text-danger"></span>
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="phone"></label>
             <div class="col-md-5">
@@ -35,6 +48,7 @@
                 <span asp-validation-for="phone" class="text-danger"></span>
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="email"></label>
             <div class="col-md-5">
@@ -42,20 +56,50 @@
                 <span asp-validation-for="email" class="text-danger"></span>
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="RentalStart"></label>
             <div class="col-md-5">
-                <input asp-for="RentalStart" type="date" class="form-control" />
+                <input asp-for="RentalStart" type="date" class="form-control" id="startDate" onchange="updatePrice()" />
                 <span asp-validation-for="RentalStart" class="text-danger"></span>
             </div>
         </div>
+
         <div class="form-group">
             <label asp-for="RentalEnd"></label>
             <div class="col-md-5">
-                <input asp-for="RentalEnd" type="date" class="form-control" />
+                <input asp-for="RentalEnd" type="date" class="form-control" id="endDate" onchange="updatePrice()" />
                 <span asp-validation-for="RentalEnd" class="text-danger"></span>
             </div>
         </div>
+
+        <div class="form-group">
+            <label>Загальна сума:</label>
+            <div class="col-md-5">
+                <span id="totalPrice">0</span> грн
+            </div>
+        </div>
+
         <input class="btn btn-success" type="submit" value="Завершити замовлення" />
     </form>
 </div>
+
+<script>
+    function updatePrice() {
+        var startDate = new Date(document.getElementById("startDate").value);
+        var endDate = new Date(document.getElementById("endDate").value);
+
+        if (startDate && endDate && startDate < endDate) {
+            var days = (endDate - startDate) / (1000 * 3600 * 24);
+
+            var totalPrice = 0;
+            document.querySelectorAll("#carList li").forEach(function (item) {
+                var carPrice = parseFloat(item.getAttribute("data-price"));
+                totalPrice += carPrice;
+            });
+
+            totalPrice *= days;
+            document.getElementById("totalPrice").innerText = totalPrice.toFixed(2);
+        }
+    }
+</script>

@@ -31,6 +31,11 @@ namespace Rental.Data.Models
 
             return new RentalCart(context) { RentalCartId = rentalCartId };
         }
+        public decimal GetTotalPrice()
+        {
+            return listRentalItems.Sum(item => item.price);
+        }
+
 
         public void AddToCart(Car car)
         {
@@ -53,6 +58,14 @@ namespace Rental.Data.Models
                 appDBContent.SaveChanges();
             }
         }
+
+        public void ClearCart()
+        {
+            var items = appDBContent.RentalCartItem.Where(c => c.RentalCartId == RentalCartId);
+            appDBContent.RentalCartItem.RemoveRange(items);
+            appDBContent.SaveChanges();
+        }
+
 
         public List<RentalCartItem> getRentalItems()
         {

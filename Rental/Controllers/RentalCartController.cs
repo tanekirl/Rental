@@ -25,13 +25,14 @@ namespace Rental.Controllers
 
             var obj = new RentalCartViewModel
             {
-                rentalCart = _rentalCart
+                rentalCart = _rentalCart,
+                TotalPrice = _rentalCart.GetTotalPrice() // Додаємо загальну ціну
             };
 
             return View(obj);
-
-
         }
+
+
 
         public RedirectToActionResult addToCart(int id)
         {
