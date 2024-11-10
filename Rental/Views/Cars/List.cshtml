@@ -1,14 +1,73 @@
-﻿@{
+﻿@model CarsListViewModel
+
+@{
     Layout = "_Layout";
 }
 
-<h1>Всі авто</h1>
-<h3>@Model.currCategory</h3>
+<h1>Автомобілі</h1>
 
+<div>
+    <!-- Вкладки для фільтрації -->
+    <button class="btn btn-outline-primary" onclick="filterCars('all')">Всі авто</button>
+    <button class="btn btn-outline-primary" onclick="filterCars('Електро')">Електро</button>
+    <button class="btn btn-outline-primary" onclick="filterCars('Класика')">Класика</button>
+</div>
 
-<div class="row mt-5 mb-2">
-    @foreach (Car car in Model.allCars)
+<div>
+    <!-- Кнопки для сортування -->
+    <button class="btn btn-outline-primary" onclick="sortCars('asc')">Від дешевих до дорогих</button>
+    <button class="btn btn-outline-primary" onclick="sortCars('desc')">Від дорогих до дешевих</button>
+</div>
+
+<div id="carsContainer" class="row mt-5 mb-5">
+    @foreach (var car in Model.allCars)
     {
-        @Html.Partial("AllCars", car)
+        <div class="col-md-4 mb-4 car-card"
+         data-category="@car.Category.categoryName"
+         data-price="@car.price">
+            <div class="card">
+                <img src="@car.img" class="card-img-top" alt="@car.name">
+                <div class="card-body">
+                    <h5 class="card-title">@car.name</h5>
+                    <p class="card-text">Ціна: @car.price</p>
+                    <a href="@Url.Action("Index", "CarDetails", new { id = car.id })" class="btn btn-primary">Детальніше</a>
+
+
+                </div>
+            </div>
+        </div>
     }
 </div>
+
+<!-- JavaScript для фільтрації та сортування -->
+<script>
+    function filterCars(category) {
+        const cars = document.querySelectorAll('.car-card');
+
+        cars.forEach(car => {
+            const carCategory = car.getAttribute('data-category');
+
+            if (category === 'all' || carCategory === category) {
+                car.style.display = 'block';
+            } else {
+                car.style.display = 'none';
+            }
+        });
+    }
+
+    function sortCars(order) {
+        const carsContainer = document.getElementById('carsContainer');
+        const cars = Array.from(carsContainer.querySelectorAll('.car-card'));
+
+        cars.sort((a, b) => {
+            const priceA = parseFloat(a.getAttribute('data-price'));
+            const priceB = parseFloat(b.getAttribute('data-price'));
+
+            return order === 'asc' ? priceA - priceB : priceB - priceA;
+        });
+
+        // Очищення контейнера та додавання відсортованих елементів
+        carsContainer.innerHTML = '';
+        cars.forEach(car => carsContainer.appendChild(car));
+    }
+</script>
