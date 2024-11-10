@@ -1,5 +1,4 @@
-﻿//using System.Data.Entity;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -11,11 +10,12 @@ namespace Rental.Data.Models
 {
     public class RentalCart
     {
-
         private readonly AppDBContent appDBContent;
+
         public RentalCart(AppDBContent appDBContent)
         {
             this.appDBContent = appDBContent;
+            listRentalItems = new List<RentalCartItem>(); // Ініціалізація порожнього списку
         }
 
         public string RentalCartId { get; set; }
@@ -31,22 +31,35 @@ namespace Rental.Data.Models
 
             return new RentalCart(context) { RentalCartId = rentalCartId };
         }
+
         public decimal GetTotalPrice()
         {
             return listRentalItems.Sum(item => item.price);
         }
 
-
         public void AddToCart(Car car)
         {
-            appDBContent.RentalCartItem.Add(new RentalCartItem
-            {
-                RentalCartId = RentalCartId,
-                car = car,
-                price = car.price
-            });
+            // Завантажуємо поточний список елементів кошика, щоб уникнути проблеми з null
+            listRentalItems = getRentalItems();
 
-            appDBContent.SaveChanges();
+            // Перевірка, чи автомобіль вже в кошику
+            var existingItem = listRentalItems.FirstOrDefault(i => i.car.id == car.id);
+            if (existingItem == null)
+            {
+                appDBContent.RentalCartItem.Add(new RentalCartItem
+                {
+                    RentalCartId = RentalCartId,
+                    car = car,
+                    price = car.price
+                });
+
+                appDBContent.SaveChanges();
+            }
+            else
+            {
+                // Додайте повідомлення TempData про те, що авто вже в кошику
+                // TempData["Message"] = "Авто вже додано до кошика";
+            }
         }
 
         public void RemoveFromCart(int id)
@@ -66,11 +79,12 @@ namespace Rental.Data.Models
             appDBContent.SaveChanges();
         }
 
-
         public List<RentalCartItem> getRentalItems()
         {
-            return appDBContent.RentalCartItem.Where(c => c.RentalCartId == RentalCartId).Include(s => s.car).ToList();
+            return appDBContent.RentalCartItem
+                .Where(c => c.RentalCartId == RentalCartId)
+                .Include(s => s.car)
+                .ToList();
         }
-
     }
 }

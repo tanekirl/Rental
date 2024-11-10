@@ -26,7 +26,7 @@ namespace Rental.Data.Models
         public string transmission { get; set; }
         public virtual ICollection<CarImage> Images { get; set; } // Колекція об'єктів CarImage
         public Category Category { get; set; }
-     
+        public bool CarInCart { get; set; }
     }
 
 }

@@ -18,16 +18,27 @@ namespace Rental.Controllers
 
         [Route("Cars/List")]
         [Route("Cars/List/{category}")]
-        public ViewResult List(string category)
+        public ViewResult List(string category, string sortOrder)
         {
             string _category = category;
             IEnumerable<Car> cars = null;
             string currCategory = "";
-            if (string.IsNullOrEmpty(category))
+
+            // Сортування автомобілів за ціною
+            switch (sortOrder)
             {
-                cars = _allCars.Cars.OrderBy(i => i.id);
+                case "price_asc":
+                    cars = _allCars.Cars.OrderBy(i => i.price); // від дешевих до дорогих
+                    break;
+                case "price_desc":
+                    cars = _allCars.Cars.OrderByDescending(i => i.price); // від дорогих до дешевих
+                    break;
+                default:
+                    cars = _allCars.Cars.OrderBy(i => i.id); // за замовчуванням
+                    break;
             }
-            else
+
+            if (!string.IsNullOrEmpty(category))
             {
                 if (string.Equals("electro", category, StringComparison.OrdinalIgnoreCase))
                 {
@@ -39,9 +50,6 @@ namespace Rental.Controllers
                     cars = _allCars.Cars.Where(i => i.Category.categoryName.Equals("Класика")).OrderBy(i => i.id);
                     currCategory = "Класика";
                 }
-
-
-
             }
 
             var carObj = new CarsListViewModel
@@ -50,14 +58,10 @@ namespace Rental.Controllers
                 currCategory = currCategory
             };
 
-
-
             ViewBag.Title = "Сторінка з авто";
-
 
             return View(carObj);
         }
 
-
     }
-}
+    }

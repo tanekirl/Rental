@@ -39,10 +39,23 @@ namespace Rental.Controllers
             var item = _carRep.Cars.FirstOrDefault(i => i.id == id);
             if (item != null)
             {
-                _rentalCart.AddToCart(item);
+                // Перевірка, чи автомобіль вже є в кошику
+                if (_rentalCart.listRentalItems.Any(i => i.car.id == id))
+                {
+                    TempData["Message"] = "Ви вже обрали даний автомобіль";
+                }
+                else
+                {
+                    _rentalCart.AddToCart(item);
+                    TempData["Message"] = "Автомобіль додано до кошика";
+                }
             }
-            return RedirectToAction("Index");
+
+            // Повернення до сторінки деталей автомобіля
+            return RedirectToAction("Index", "CarDetails", new { id = id });
         }
+
+
 
         [HttpPost]
         public RedirectToActionResult removeFromCart(int id)

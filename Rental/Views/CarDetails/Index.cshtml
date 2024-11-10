@@ -4,6 +4,12 @@
     Layout = "_Layout";
 }
 
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">@TempData["Message"]</div>
+}
+
 <h1>@Model.name</h1>
 <img src="@Model.img" alt="@Model.name" class="img-thumbnail" />
 <h4>Опис: @Model.longDesc</h4>
@@ -44,3 +50,18 @@ else
 {
     <p>Немає зображень для показу.</p>
 }
+
+<p><a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Повернутися на головну</a></p>
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    @if (Model.CarInCart)
+    {
+        <p><a class="btn btn-info" href="@Url.Action("Index", "RentalCart")">Авто в кошику</a></p>
+    }
+    else
+    {
+        <p><a class="btn btn-warning" asp-controller="RentalCart" asp-action="addToCart" asp-route-id="@Model.id">Додати в кошик</a></p>
+    }
+}
+
+
