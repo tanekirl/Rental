@@ -1,5 +1,4 @@
 using Rental.Data.interfaces; // ���� using
-using Rental.Data.mocks;
 using Rental.Data; // ������ ����, �� ����������� AppDBContent
 using Microsoft.EntityFrameworkCore; // ��� ���������� �� ���� �����
 using Rental.Data.Repository;
@@ -90,7 +89,7 @@ app.MapControllerRoute(
 // ������������ ���� �����
 using (var scope = app.Services.CreateScope())
 {
-    AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>(); 
+    AppDBContent content = scope.ServiceProvider.GetRequiredService<AppDBContent>();
     UserManager<User> userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     RoleManager<IdentityRole> roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     await DBObjects.Initial(content, userManager, roleManager);

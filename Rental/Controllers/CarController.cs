@@ -24,9 +24,9 @@ namespace Rental.Controllers
         // GET: Car
         public async Task<IActionResult> Index()
         {
-              return _context.Car != null ? 
-                          View(await _context.Car.ToListAsync()) :
-                          Problem("Entity set 'AppDBContent.Car'  is null.");
+            return _context.Car != null ?
+                View(await _context.Car.Include(c => c.Category).ToListAsync()) :
+                Problem("Entity set 'AppDBContent.Car' is null.");
         }
 
         // GET: Car/Details/5
@@ -38,6 +38,7 @@ namespace Rental.Controllers
             }
 
             var car = await _context.Car
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (car == null)
             {
@@ -48,17 +49,16 @@ namespace Rental.Controllers
         }
 
         // GET: Car/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewData["CategorySelect"] = await GetCategorySelectList();
             return View();
         }
 
         // POST: Car/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,shortDesc,longDesc,img,price,isFavourite,available,seatingCapacity,bodyType,horsepower,engineDisplacement,fuelType,color,transmission")] Car car)
+        public async Task<IActionResult> Create([Bind("id,name,CategoryId,shortDesc,longDesc,img,price,isFavourite,available,seatingCapacity,bodyType,horsepower,engineDisplacement,fuelType,color,transmission")] Car car)
         {
             if (ModelState.IsValid)
             {
@@ -66,6 +66,7 @@ namespace Rental.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategorySelect"] = await GetCategorySelectList(); // додано для передачі списку категорій
             return View(car);
         }
 
@@ -82,15 +83,15 @@ namespace Rental.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["CategorySelect"] = await GetCategorySelectList();
             return View(car);
         }
 
         // POST: Car/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,name,shortDesc,longDesc,img,price,isFavourite,available,seatingCapacity,bodyType,horsepower,engineDisplacement,fuelType,color,transmission")] Car car)
+        public async Task<IActionResult> Edit(int id, [Bind("id,name,CategoryId,shortDesc,longDesc,img,price,isFavourite,available,seatingCapacity,bodyType,horsepower,engineDisplacement,fuelType,color,transmission")] Car car)
         {
             if (id != car.id)
             {
@@ -117,6 +118,7 @@ namespace Rental.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["CategorySelect"] = await GetCategorySelectList(); // додано для передачі списку категорій
             return View(car);
         }
 
@@ -129,6 +131,7 @@ namespace Rental.Controllers
             }
 
             var car = await _context.Car
+                .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (car == null)
             {
@@ -145,21 +148,26 @@ namespace Rental.Controllers
         {
             if (_context.Car == null)
             {
-                return Problem("Entity set 'AppDBContent.Car'  is null.");
+                return Problem("Entity set 'AppDBContent.Car' is null.");
             }
             var car = await _context.Car.FindAsync(id);
             if (car != null)
             {
                 _context.Car.Remove(car);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        private async Task<SelectList> GetCategorySelectList()
+        {
+            return new SelectList(await _context.Category.ToListAsync(), "id", "categoryName");
+        }
+
         private bool CarExists(int id)
         {
-          return (_context.Car?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.Car?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

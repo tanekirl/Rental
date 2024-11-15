@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Rental.Data.Models
 {
@@ -25,8 +27,8 @@ namespace Rental.Data.Models
         public string color { get; set; }
         public string transmission { get; set; }
         public virtual ICollection<CarImage> Images { get; set; } // Колекція об'єктів CarImage
-        public Category Category { get; set; }
-        public bool CarInCart { get; set; }
+        public int CategoryId { get; set; }
+        [ValidateNever] public Category Category { get; set; }
+        [NotMapped] public bool CarInCart { get; set; }
     }
-
 }

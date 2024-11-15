@@ -4,43 +4,41 @@
     Layout = "_Layout";
 }
 
-
 @if (TempData["Message"] != null)
 {
-    <div class="alert alert-warning">@TempData["Message"]</div>
+    <div class="alert alert-info" style="background-color: #f9f9f9; border-left: 4px solid #007bff; color: #343a40; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px;">
+        @TempData["Message"]
+    </div>
 }
 
-<h1>@Model.name</h1>
-<img src="@Model.img" alt="@Model.name" class="img-thumbnail" />
-<h4>Опис: @Model.longDesc</h4>
-<p>Кількість сидінь: @Model.seatingCapacity</p>
-<p>Тип кузова: @Model.bodyType</p>
-<p>Кількість сил: @Model.horsepower</p>
-<p>Об'єм двигуна: @Model.engineDisplacement л</p>
-<p>Тип пального: @Model.fuelType</p>
-<p>Колір: @Model.color</p>
-<p>Коробка передач: @Model.transmission</p>
 
-<h4>Галерея</h4>
+<h1 class="text-center" style="font-weight: bold">@Model.name</h1>
+
 @if (Model.Images != null && Model.Images.Any())
 {
-    <div id="carCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
+    <div id="carCarousel" class="carousel slide my-4" data-bs-ride="carousel" style="width: 85%; margin: 0 auto; background-color: #444745; padding: 10px; border-radius: 8px;">
+        <div class="carousel-indicators">
             @{
                 var imageList = Model.Images.ToList();
                 for (int i = 0; i < imageList.Count; i++)
                 {
-                    <div class="carousel-item @(i == 0 ? "active" : "")">
-                        <img src="@imageList[i].Url" class="d-block w-100" alt="@Model.name" />
-                    </div>
+                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="true"></button>
                 }
             }
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev">
+        <div class="carousel-inner rounded">
+            @for (int i = 0; i < imageList.Count; i++)
+            {
+                <div class="carousel-item @(i == 0 ? "active" : "")">
+                    <img src="@imageList[i].Url" class="d-block w-100" alt="@Model.name" style="height: auto; max-height: 500px; object-fit: contain;" />
+                </div>
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev" style="background-color: #353836; width: 50px;">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next">
+        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next" style="background-color: #353836; width: 50px;">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -51,17 +49,85 @@ else
     <p>Немає зображень для показу.</p>
 }
 
-<p><a class="btn btn-secondary" asp-controller="Home" asp-action="Index">Повернутися на головну</a></p>
-@if (User.Identity != null && User.Identity.IsAuthenticated)
-{
-    @if (Model.CarInCart)
-    {
-        <p><a class="btn btn-info" href="@Url.Action("Index", "RentalCart")">Авто в кошику</a></p>
-    }
-    else
-    {
-        <p><a class="btn btn-warning" asp-controller="RentalCart" asp-action="addToCart" asp-route-id="@Model.id">Додати в кошик</a></p>
-    }
-}
+<div class="characteristics mt-4" style="font-size: 0.9rem; display: flex; justify-content: space-between; gap: 20px; margin-left: 10%; margin-right: 10%; flex-wrap: wrap;">
+    <!-- Перша колонка характеристик -->
+    <div class="column" style="flex: 1; min-width: 280px;">
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/cost.png" alt="Cost per day" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Ціна за добу: @Model.price ₴</div>
+        </div>
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/seat.png" alt="Seats" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Кількість сидінь: @Model.seatingCapacity</div>
+        </div>
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/body.png" alt="Body" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Тип кузова: @Model.bodyType</div>
+        </div>
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/horse.png" alt="Horsepower" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Кількість сил: @Model.horsepower</div>
+        </div>
 
+        <!-- Кнопка "Повернутися на головну" під першою колонкою -->
+        <p class="text-center mt-3"><a class="btn btn-secondary" asp-controller="Home" asp-action="Index">На головну </a></p>
+    </div>
 
+    <!-- Друга колонка характеристик -->
+    <div class="column" style="flex: 1; min-width: 280px;">
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/engine.png" alt="Engine" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Об'єм двигуна: @Model.engineDisplacement л</div>
+        </div>
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/fuel.png" alt="Fuel" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Тип пального: @Model.fuelType</div>
+        </div>
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/color.png" alt="Color" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Колір: @Model.color</div>
+        </div>
+        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
+            <div class="icon">
+                <img src="/img/transmission.png" alt="Transmission" style="width: 36px; height: 36px; margin-right: 10px;">
+            </div>
+            <div class="text" style="font-weight: 700; color: #080807;">Коробка передач: @Model.transmission</div>
+        </div>
+
+        <!-- Кнопка "Додати в кошик" під другою колонкою -->
+        <div class="text-center mt-3">
+            @if (User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                @if (Model.CarInCart)
+                {
+                    <p><a class="btn btn-primary" href="@Url.Action("Index", "RentalCart")">Авто в кошику</a></p>
+                }
+                else
+                {
+                    <p><a class="btn btn-primary" asp-controller="RentalCart" asp-action="addToCart" asp-route-id="@Model.id">Додати в кошик</a></p>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .characteristic-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
+</style>

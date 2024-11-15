@@ -4,95 +4,84 @@
 
 @model Order
 
-<div class="row">
-    <h3>Оформлення оренди</h3>
-    <form asp-action="Checkout" method="post" class="form-horizontal">
-        <h4>Автомобілі в кошику:</h4>
-        <ul id="carList">
+<div class="container my-5">
+    <h3 class="text-center mb-4" style="font-weight: bold; color: #f8f9fa;">Оформлення оренди</h3>
+    <form asp-action="Checkout" method="post" class="form-horizontal bg-light p-4 rounded shadow-sm">
+        <h5 class="mb-3" style="font-weight: bold; color: #333;">Автомобілі в кошику:</h5>
+        <ul id="carList" class="list-unstyled">
             @foreach (var item in Model.orderDetails)
             {
-                <li data-price="@item.price">
-                    @item.car.name - @item.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))
+                <li data-price="@item.price" class="mb-2">
+                    <span class="fw-bold car-name" style="color: #333;">@item.car.name</span>
+                    <span style="color: #333;"> - </span>
+                    <span class="car-price" style="color: #333;">@item.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))</span>
                 </li>
             }
         </ul>
 
-        <div class="form-group">
-            <label asp-for="name"></label>
-            <div class="col-md-5">
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
-            </div>
+        <div class="form-group mb-3">
+            <label asp-for="name" class="form-label">Ім'я</label>
+            <input asp-for="name" class="form-control" />
+            <span asp-validation-for="name" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="surname"></label>
-            <div class="col-md-5">
-                <input asp-for="surname" class="form-control" />
-                <span asp-validation-for="surname" class="text-danger"></span>
-            </div>
+        <div class="form-group mb-3">
+            <label asp-for="surname" class="form-label">Прізвище</label>
+            <input asp-for="surname" class="form-control" />
+            <span asp-validation-for="surname" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="adress"></label>
-            <div class="col-md-5">
-                <input asp-for="adress" class="form-control" />
-                <span asp-validation-for="adress" class="text-danger"></span>
-            </div>
+        <div class="form-group mb-3">
+            <label asp-for="adress" class="form-label">Адреса</label>
+            <input asp-for="adress" class="form-control" />
+            <span asp-validation-for="adress" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="phone"></label>
-            <div class="col-md-5">
-                <input asp-for="phone" class="form-control" />
-                <span asp-validation-for="phone" class="text-danger"></span>
-            </div>
+        <div class="form-group mb-3">
+            <label asp-for="phone" class="form-label">Телефон</label>
+            <input asp-for="phone" class="form-control" />
+            <span asp-validation-for="phone" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="email"></label>
-            <div class="col-md-5">
-                <input asp-for="email" class="form-control" />
-                <span asp-validation-for="email" class="text-danger"></span>
-            </div>
+        <div class="form-group mb-3">
+            <label asp-for="email" class="form-label">Email</label>
+            <input asp-for="email" class="form-control" />
+            <span asp-validation-for="email" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RentalStart"></label>
-            <div class="col-md-5">
-                <input asp-for="RentalStart" type="date" class="form-control" id="startDate" onchange="updatePrice()" />
-                <span asp-validation-for="RentalStart" class="text-danger"></span>
-            </div>
+        <div class="form-group mb-3">
+            <label asp-for="RentalStart" class="form-label">Дата початку оренди</label>
+            <input asp-for="RentalStart" type="date" class="form-control" id="startDate" onchange="updatePrice()" />
+            <span asp-validation-for="RentalStart" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label asp-for="RentalEnd"></label>
-            <div class="col-md-5">
-                <input asp-for="RentalEnd" type="date" class="form-control" id="endDate" onchange="updatePrice()" />
-                <span asp-validation-for="RentalEnd" class="text-danger"></span>
-            </div>
+        <div class="form-group mb-3">
+            <label asp-for="RentalEnd" class="form-label">Дата кінця оренди</label>
+            <input asp-for="RentalEnd" type="date" class="form-control" id="endDate" onchange="updatePrice()" />
+            <span asp-validation-for="RentalEnd" class="text-danger"></span>
         </div>
 
-        <div class="form-group">
-            <label>Загальна сума:</label>
-            <div class="col-md-5">
-                <span id="totalPrice">0</span> грн
-            </div>
+        <div class="form-group mb-3">
+            <label class="form-label" style="color: #333;">Загальна сума:</label>
+            <span id="totalPrice" class="fw-bold" style="color: #333;">0</span> <span style="color: #333;">₴</span>
         </div>
 
-        <input class="btn btn-success" type="submit" value="Завершити замовлення" />
+        <div class="form-group text-center mt-4">
+            <input class="btn btn-success btn-lg" type="submit" value="Завершити замовлення" />
+        </div>
     </form>
 </div>
 
 <script>
+    // Функція для оновлення ціни
     function updatePrice() {
         var startDate = new Date(document.getElementById("startDate").value);
         var endDate = new Date(document.getElementById("endDate").value);
 
         if (startDate && endDate && startDate < endDate) {
             var days = (endDate - startDate) / (1000 * 3600 * 24);
-
             var totalPrice = 0;
+
             document.querySelectorAll("#carList li").forEach(function (item) {
                 var carPrice = parseFloat(item.getAttribute("data-price"));
                 totalPrice += carPrice;
@@ -102,4 +91,61 @@
             document.getElementById("totalPrice").innerText = totalPrice.toFixed(2);
         }
     }
+
+    // Встановлення дати по замовчуванню на сьогоднішній день
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById('startDate').setAttribute('min', today);
+        document.getElementById('startDate').value = today;
+
+        var endDateInput = document.getElementById('endDate');
+        endDateInput.setAttribute('min', today);  // Можна вибрати не раніше сьогоднішньої дати
+
+        document.getElementById('startDate').addEventListener('change', function () {
+            endDateInput.setAttribute('min', document.getElementById('startDate').value);
+        });
+    });
 </script>
+
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh; /* Це гарантує, що висота тіла буде рівна висоті вікна */
+        background: linear-gradient(180deg, #6a6e6c, #808783);
+        color: #e0e0e0;
+    }
+
+    .form-control {
+        border-radius: 0.5rem;
+        background-color: #f1f1f1;
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .fw-bold {
+        font-weight: bold;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+        padding: 10px 20px;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+    .car-name, .car-price, #totalPrice, .fw-bold {
+        color: #333; /* Темний колір для тексту */
+    }
+
+    #totalPrice {
+        color: #333; /* Темний колір для загальної суми */
+    }
+</style>

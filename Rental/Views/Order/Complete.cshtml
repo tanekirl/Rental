@@ -1,6 +1,23 @@
-﻿Complete.cshtml
-@{
+﻿@{
     Layout = "_Layout";
 }
 
-<h3>@ViewBag.Message</h3>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="card shadow-lg">
+                <div class="card-body p-5">
+                    <h3 class="card-title text-success mb-4" style="font-weight: bold; font-size: 1.8rem;">
+                        @ViewBag.Message
+                    </h3>
+                    <p class="card-text" style="color: #343a40; font-size: 1.1rem; line-height: 1.6;">
+                        Дякуємо за ваше замовлення! Ви завжди можете повернутися на головну сторінку, щоб переглянути інші доступні послуги.
+                    </p>
+                    <a class="btn btn-primary mt-3" asp-controller="Home" asp-action="Index" style="font-size: 1.2rem; padding: 10px 20px;">
+                        На головну
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

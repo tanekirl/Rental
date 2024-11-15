@@ -41,7 +41,9 @@ namespace Rental.Controllers
             // Створюємо об'єкт замовлення з деталями
             var order = new Order
             {
-                orderDetails = orderDetails
+                orderDetails = orderDetails,
+                RentalStart = DateTime.UtcNow.Date,
+                RentalEnd = DateTime.UtcNow.Date
             };
 
             // Обчислюємо загальну суму замовлення
@@ -71,6 +73,14 @@ namespace Rental.Controllers
                 rentalCart.ClearCart();         // Очищення кошика після оформлення замовлення
                 return RedirectToAction("Complete");  // Перехід до сторінки підтвердження
             }
+
+            // Створюємо деталі замовлення на основі елементів кошика
+            var orderDetails = rentalCart.listRentalItems.Select(item => new OrderDetail
+            {
+                car = item.car,  // Переконайтеся, що item.Car != null
+                price = item.car?.price ?? 0  // Якщо ціна машини null, заміняємо на 0
+            }).ToList();
+            order.orderDetails = orderDetails;  // Додаємо деталі до замовлення
 
             return View(order);  // Повертаємо на сторінку оформлення, якщо є помилки
         }

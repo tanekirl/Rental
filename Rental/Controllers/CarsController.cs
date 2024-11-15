@@ -16,6 +16,7 @@ namespace Rental.Controllers
             _allCategories = iCarsCat;
         }
 
+        // Дія для списку автомобілів
         [Route("Cars/List")]
         [Route("Cars/List/{category}")]
         public ViewResult List(string category, string sortOrder)
@@ -63,5 +64,28 @@ namespace Rental.Controllers
             return View(carObj);
         }
 
+        // Дія для умов оренди
+        [Route("Cars/Conditions")]
+        public IActionResult Conditions()
+        {
+            ViewBag.Title = "Умови оренди";
+            return View();
+        }
+
+        // Дія для сторінки "Про нас"
+        [Route("Cars/About")]
+        public IActionResult About()
+        {
+            ViewBag.Title = "Про нас";
+            return View();
+        }
+
+        // Дія для політики конфіденційності
+        [Route("Cars/Politic")]
+        public IActionResult Politic()
+        {
+            ViewBag.Title = "Політика конфіденційності";
+            return View();
+        }
     }
-    }
+}

@@ -5,9 +5,9 @@
     <h2>@Model.name</h2>
     <p>@Model.shortDesc</p>
     <p>Ціна за добу: @Model.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))</p>
+
     @if (User.Identity != null && User.Identity.IsAuthenticated)
     {
-        <p><a class="btn btn-warning" asp-controller="RentalCart" asp-action="addToCart" asp-route-id="@Model.id">Додати у кошик</a></p>
+        <p><a class="btn btn-info" asp-controller="CarDetails" asp-action="Index" asp-route-id="@Model.id">Детальніше</a></p>
     }
-    <p><a class="btn btn-info" asp-controller="CarDetails" asp-action="Index" asp-route-id="@Model.id">Детальніше</a></p> <!-- New button -->
 </div>

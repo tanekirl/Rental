@@ -1,100 +1,140 @@
 ﻿@model Rental.Data.Models.Car
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редагувати";
     Layout = "_Layout";
 }
 
-<h1>Edit</h1>
+<h1>Редагувати автомобіль</h1>
 
-<h4>Car</h4>
+<h4>Автомобіль</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="id" />
+
+            <!-- Вибір категорії -->
             <div class="form-group">
-                <label asp-for="name" class="control-label"></label>
+                <label asp-for="CategoryId" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-select" asp-items="@((SelectList)(ViewData["CategorySelect"]))"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+            <!-- Назва автомобіля -->
+            <div class="form-group">
+                <label asp-for="name" class="control-label">Назва</label>
                 <input asp-for="name" class="form-control" />
                 <span asp-validation-for="name" class="text-danger"></span>
             </div>
+
+            <!-- Короткий опис -->
             <div class="form-group">
-                <label asp-for="shortDesc" class="control-label"></label>
+                <label asp-for="shortDesc" class="control-label">Короткий опис</label>
                 <input asp-for="shortDesc" class="form-control" />
                 <span asp-validation-for="shortDesc" class="text-danger"></span>
             </div>
+
+            <!-- Детальний опис -->
             <div class="form-group">
-                <label asp-for="longDesc" class="control-label"></label>
+                <label asp-for="longDesc" class="control-label">Детальний опис</label>
                 <input asp-for="longDesc" class="form-control" />
                 <span asp-validation-for="longDesc" class="text-danger"></span>
             </div>
+
+            <!-- Зображення -->
             <div class="form-group">
-                <label asp-for="img" class="control-label"></label>
+                <label asp-for="img" class="control-label">Зображення</label>
                 <input asp-for="img" class="form-control" />
                 <span asp-validation-for="img" class="text-danger"></span>
             </div>
+
+            <!-- Ціна -->
             <div class="form-group">
-                <label asp-for="price" class="control-label"></label>
+                <label asp-for="price" class="control-label">Ціна</label>
                 <input asp-for="price" class="form-control" />
                 <span asp-validation-for="price" class="text-danger"></span>
             </div>
+
+            <!-- Чи є улюбленим -->
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="isFavourite" /> @Html.DisplayNameFor(model => model.isFavourite)
                 </label>
             </div>
+
+            <!-- Чи доступний -->
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="available" /> @Html.DisplayNameFor(model => model.available)
                 </label>
             </div>
+
+            <!-- Місткість -->
             <div class="form-group">
-                <label asp-for="seatingCapacity" class="control-label"></label>
+                <label asp-for="seatingCapacity" class="control-label">Місткість</label>
                 <input asp-for="seatingCapacity" class="form-control" />
                 <span asp-validation-for="seatingCapacity" class="text-danger"></span>
             </div>
+
+            <!-- Тип кузова -->
             <div class="form-group">
-                <label asp-for="bodyType" class="control-label"></label>
+                <label asp-for="bodyType" class="control-label">Тип кузова</label>
                 <input asp-for="bodyType" class="form-control" />
                 <span asp-validation-for="bodyType" class="text-danger"></span>
             </div>
+
+            <!-- Потужність -->
             <div class="form-group">
-                <label asp-for="horsepower" class="control-label"></label>
+                <label asp-for="horsepower" class="control-label">Потужність</label>
                 <input asp-for="horsepower" class="form-control" />
                 <span asp-validation-for="horsepower" class="text-danger"></span>
             </div>
+
+            <!-- Об'єм двигуна -->
             <div class="form-group">
-                <label asp-for="engineDisplacement" class="control-label"></label>
+                <label asp-for="engineDisplacement" class="control-label">Об'єм двигуна</label>
                 <input asp-for="engineDisplacement" class="form-control" />
                 <span asp-validation-for="engineDisplacement" class="text-danger"></span>
             </div>
+
+            <!-- Тип пального -->
             <div class="form-group">
-                <label asp-for="fuelType" class="control-label"></label>
+                <label asp-for="fuelType" class="control-label">Тип пального</label>
                 <input asp-for="fuelType" class="form-control" />
                 <span asp-validation-for="fuelType" class="text-danger"></span>
             </div>
+
+            <!-- Колір -->
             <div class="form-group">
-                <label asp-for="color" class="control-label"></label>
+                <label asp-for="color" class="control-label">Колір</label>
                 <input asp-for="color" class="form-control" />
                 <span asp-validation-for="color" class="text-danger"></span>
             </div>
+
+            <!-- Коробка передач -->
             <div class="form-group">
-                <label asp-for="transmission" class="control-label"></label>
+                <label asp-for="transmission" class="control-label">Коробка передач</label>
                 <input asp-for="transmission" class="form-control" />
                 <span asp-validation-for="transmission" class="text-danger"></span>
             </div>
+
+            <!-- Кнопка для збереження -->
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
+<!-- Повернення до списку -->
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Повернутись до списку</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

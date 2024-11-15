@@ -65,7 +65,7 @@ namespace Rental.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CarId"] = new SelectList(_context.Car, "id", "id", carImage.CarId);
+            ViewData["CarId"] = new SelectList(await _context.Car.ToListAsync(), "id", "name");
             return View(carImage);
         }
 
@@ -82,7 +82,7 @@ namespace Rental.Controllers
             {
                 return NotFound();
             }
-            ViewData["CarId"] = new SelectList(_context.Car, "id", "id", carImage.CarId);
+            ViewData["CarId"] = new SelectList(await _context.Car.ToListAsync(), "id", "name");
             return View(carImage);
         }
 
@@ -155,14 +155,14 @@ namespace Rental.Controllers
             {
                 _context.CarImages.Remove(carImage);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CarImageExists(int id)
         {
-          return (_context.CarImages?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.CarImages?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

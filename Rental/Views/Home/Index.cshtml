@@ -1,17 +1,33 @@
-﻿Index.cshtml
-@model HomeViewModel
-
+﻿@model HomeViewModel
 
 @{
     Layout = "_Layout";
 }
+
 <h1>Найкращі авто</h1>
 <div class="row mt-5 mb-2">
-
-    @{
-        foreach (Car car in Model.favCars)
-        {
-            @Html.Partial("AllCars", car)
-        }
+    @foreach (var car in Model.favCars)
+    {
+        <div class="col-md-4 mb-4 car-card"
+         onclick="openCarDetails('@car.id')">
+            <!-- Додано обробник події для натискання на картку -->
+            <div class="card">
+                <img src="@car.img" class="card-img-top" alt="@car.name">
+                <div class="card-body">
+                    <h5 class="card-title">@car.name</h5>
+                    <p class="card-text">Ціна за добу: @car.price.ToString("0.##") ₴</p>
+                    <!-- Кнопка "Детальніше" залишилась для доступності -->
+                    <a href="@Url.Action("Index", "CarDetails", new { id = car.id })" class="btn btn-primary">Детальніше</a>
+                </div>
+            </div>
+        </div>
     }
 </div>
+
+<!-- JavaScript для обробки натискання на картку -->
+<script>
+    // Функція для відкриття деталей автомобіля при натисканні на картку
+    function openCarDetails(carId) {
+        window.location.href = '@Url.Action("Index", "CarDetails", new { id = "__carId__" })'.replace('__carId__', carId);
+    }
+</script>

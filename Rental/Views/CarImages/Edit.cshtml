@@ -1,39 +1,47 @@
 ﻿@model Rental.Data.Models.CarImage
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Редагувати зображення";
 }
 
-<h1>Edit</h1>
+<h1>Редагувати зображення</h1>
 
-<h4>CarImage</h4>
+<h4>Зображення автомобіля</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+
+            <!-- URL зображення -->
             <div class="form-group">
-                <label asp-for="Url" class="control-label"></label>
+                <label asp-for="Url" class="control-label">URL зображення</label>
                 <input asp-for="Url" class="form-control" />
                 <span asp-validation-for="Url" class="text-danger"></span>
             </div>
+
+            <!-- Вибір автомобіля -->
             <div class="form-group">
-                <label asp-for="CarId" class="control-label"></label>
+                <label asp-for="CarId" class="control-label">Автомобіль</label>
                 <select asp-for="CarId" class="form-control" asp-items="ViewBag.CarId"></select>
                 <span asp-validation-for="CarId" class="text-danger"></span>
             </div>
+
+            <!-- Кнопка для збереження -->
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Зберегти" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-secondary">Повернутись до списку</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

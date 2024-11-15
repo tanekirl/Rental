@@ -39,6 +39,7 @@ namespace Rental.Controllers
             }
 
             var order = await _context.Order
+                .Include(o => o.orderDetails).ThenInclude(o => o.car)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (order == null)
             {
@@ -130,6 +131,7 @@ namespace Rental.Controllers
             }
 
             var order = await _context.Order
+                .Include(o => o.orderDetails).ThenInclude(o => o.car)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (order == null)
             {
