@@ -5,32 +5,30 @@
 @model RentalCartViewModel
 
 <div class="container my-5">
+    <h2 class="text-center mb-4">Кошик обраних автомобілів</h2>
+
     @if (Model.rentalCart.listRentalItems.Count > 0)
     {
-        <h2 class="text-center mb-4">Кошик орендованих автомобілів</h2>
-
-        @foreach (var el in Model.rentalCart.listRentalItems)
-        {
-            <div class="card mb-3 shadow-sm border-0">
-                <div class="card-body d-flex justify-content-between align-items-center">
+        <ul class="list-group">
+            @foreach (var el in Model.rentalCart.listRentalItems)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
                     <div>
-                        <h5 class="card-title mb-1 text-dark"><b>Автомобіль:</b> @el.car.name</h5>
+                        <h5 class="mb-1"><b>Автомобіль:</b> @el.car.name</h5>
                         <p class="mb-0">
-                            <b class="price-text">Ціна за добу:</b>
-                            <span class="price-text">
-                                @el.car.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))
-                            </span>
+                            <b>Ціна за добу:</b>
+                            @el.car.price.ToString("C", new System.Globalization.CultureInfo("uk-UA"))
                         </p>
                     </div>
-                    <form method="post" asp-controller="RentalCart" asp-action="removeFromCart" class="mb-0">
+                    <form method="post" asp-controller="RentalCart" asp-action="removeFromCart">
                         <input type="hidden" name="id" value="@el.id" />
-                        <button type="submit" class="btn btn-outline-danger btn-sm" title="Видалити з кошика">
-                            <i class="bi bi-trash"></i> Видалити
+                        <button type="submit" class="btn btn-outline-dark btn-sm remove-btn">
+                            Видалити
                         </button>
                     </form>
-                </div>
-            </div>
-        }
+                </li>
+            }
+        </ul>
 
         <div class="text-end mt-4">
             <h4 class="mb-3">
@@ -39,7 +37,9 @@
                     @Model.TotalPrice.ToString("C", new System.Globalization.CultureInfo("uk-UA"))
                 </span>
             </h4>
-            <a class="btn btn-success btn-lg" asp-controller="Order" asp-action="Checkout">Оформити</a>
+            <a class="btn btn-outline-dark btn-lg checkout-btn" asp-controller="Order" asp-action="Checkout">
+                Оформити
+            </a>
         </div>
     }
     else
@@ -52,19 +52,38 @@
 
 <style>
     body {
-        background: linear-gradient(180deg, #6a6e6c, #808783);
-        color: #e0e0e0;
+        background-color: #f8f9fa;
+        color: #212529;
     }
 
-    .price-text {
-        color: #a8a8a8; /* Колір тексту для «Ціна за добу» і ціни */
-        font-weight: bold;
+    .list-group-item {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        padding: 15px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Невелика тінь для картки */
+    }
+
+    .btn-outline-dark {
+        color: #212529;
+        border: 1px solid #212529;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .btn-outline-dark:hover {
+            background-color: #28a745; /* Зелений колір для кнопки "Оформити" */
+            color: #fff;
+            border: 1px solid #28a745; /* Прибрана сіра обводка */
+        }
+
+    .remove-btn:hover {
+        background-color: #dc3545; /* Червоний колір для кнопки "Видалити" */
+        color: #fff;
+        border: 1px solid #dc3545; /* Прибрана сіра обводка */
     }
 
     .total-price {
-        color: #b0b0b0; /* Трохи темніший колір для загальної ціни */
+        color: #6c757d;
         font-weight: bold;
     }
-
-
 </style>

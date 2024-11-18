@@ -16,7 +16,7 @@ namespace Rental.Controllers
             _allCategories = iCarsCat;
         }
 
-        // Дія для списку автомобілів
+        // для списку авто
         [Route("Cars/List")]
         [Route("Cars/List/{category}")]
         public ViewResult List(string category, string sortOrder)
@@ -25,17 +25,17 @@ namespace Rental.Controllers
             IEnumerable<Car> cars = null;
             string currCategory = "";
 
-            // Сортування автомобілів за ціною
+            // Сорт ціна
             switch (sortOrder)
             {
                 case "price_asc":
-                    cars = _allCars.Cars.OrderBy(i => i.price); // від дешевих до дорогих
+                    cars = _allCars.Cars.OrderBy(i => i.price); // менше - більше
                     break;
                 case "price_desc":
-                    cars = _allCars.Cars.OrderByDescending(i => i.price); // від дорогих до дешевих
+                    cars = _allCars.Cars.OrderByDescending(i => i.price); // більше - менше
                     break;
                 default:
-                    cars = _allCars.Cars.OrderBy(i => i.id); // за замовчуванням
+                    cars = _allCars.Cars.OrderBy(i => i.id); //деф
                     break;
             }
 
@@ -64,7 +64,7 @@ namespace Rental.Controllers
             return View(carObj);
         }
 
-        // Дія для умов оренди
+        //умови
         [Route("Cars/Conditions")]
         public IActionResult Conditions()
         {
@@ -72,7 +72,7 @@ namespace Rental.Controllers
             return View();
         }
 
-        // Дія для сторінки "Про нас"
+        //ебаут
         [Route("Cars/About")]
         public IActionResult About()
         {
@@ -80,7 +80,7 @@ namespace Rental.Controllers
             return View();
         }
 
-        // Дія для політики конфіденційності
+        //політікс
         [Route("Cars/Politic")]
         public IActionResult Politic()
         {

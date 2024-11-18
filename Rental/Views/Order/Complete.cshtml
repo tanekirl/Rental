@@ -5,19 +5,41 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8 text-center">
-            <div class="card shadow-lg">
+            <div class="card shadow-sm rounded">
                 <div class="card-body p-5">
-                    <h3 class="card-title text-success mb-4" style="font-weight: bold; font-size: 1.8rem;">
-                        @ViewBag.Message
-                    </h3>
-                    <p class="card-text" style="color: #343a40; font-size: 1.1rem; line-height: 1.6;">
+                    <h3 class="card-title text-success mb-4">Орендування успішно оформлено!</h3>
+                    <p class="card-text" style="font-size: 1.1rem; line-height: 1.6;">
                         Дякуємо за ваше замовлення! Ви завжди можете повернутися на головну сторінку, щоб переглянути інші доступні послуги.
                     </p>
-                    <a class="btn btn-primary mt-3" asp-controller="Home" asp-action="Index" style="font-size: 1.2rem; padding: 10px 20px;">
-                        На головну
-                    </a>
+                    <a class="btn btn-outline-dark mt-3" asp-controller="Home" asp-action="Index">На головну</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .card {
+        transition: transform 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+    }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-outline-dark {
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+        .btn-outline-dark:hover {
+            background-color: #343a40;
+            color: #fff;
+        }
+
+    body {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+</style>

@@ -13,7 +13,7 @@
     <button class="btn btn-outline-primary" onclick="filterCars('Класика')">Класика</button>
 </div>
 
-<div>
+<div class="sorting-buttons">
     <!-- Кнопки для сортування -->
     <button class="btn btn-outline-primary" onclick="sortCars('asc')">Від дешевих до дорогих</button>
     <button class="btn btn-outline-primary" onclick="sortCars('desc')">Від дорогих до дешевих</button>
@@ -38,10 +38,6 @@
     }
 </div>
 
-    
-</div>
-
-<!-- JavaScript для фільтрації та сортування -->
 <script>
     function filterCars(category) {
         const cars = document.querySelectorAll('.car-card');
@@ -70,12 +66,10 @@
             return order === 'asc' ? priceA - priceB : priceB - priceA;
         });
 
-        // Очищення контейнера та додавання відсортованих елементів
         carsContainer.innerHTML = '';
         cars.forEach(car => carsContainer.appendChild(car));
     }
 
-    // Функція для відкриття деталей автомобіля при натисканні на картку
     function openCarDetails(carId) {
         window.location.href = '@Url.Action("Index", "CarDetails", new { id = "__carId__" })'.replace('__carId__', carId);
     }

@@ -26,7 +26,7 @@ namespace Rental.Controllers
             var obj = new RentalCartViewModel
             {
                 rentalCart = _rentalCart,
-                TotalPrice = _rentalCart.GetTotalPrice() // Додаємо загальну ціну
+                TotalPrice = _rentalCart.GetTotalPrice() 
             };
 
             return View(obj);
@@ -39,7 +39,7 @@ namespace Rental.Controllers
             var item = _carRep.Cars.FirstOrDefault(i => i.id == id);
             if (item != null)
             {
-                // Перевірка, чи автомобіль вже є в кошику
+               
                 if (_rentalCart.listRentalItems.Any(i => i.car.id == id))
                 {
                     TempData["Message"] = "Ви вже обрали даний автомобіль";
@@ -51,7 +51,7 @@ namespace Rental.Controllers
                 }
             }
 
-            // Повернення до сторінки деталей автомобіля
+           
             return RedirectToAction("Index", "CarDetails", new { id = id });
         }
 

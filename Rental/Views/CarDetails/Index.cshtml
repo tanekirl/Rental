@@ -11,18 +11,17 @@
     </div>
 }
 
-
-<h1 class="text-center" style="font-weight: bold">@Model.name</h1>
+<h1 class="text-center" style="font-weight: bold; font-family: 'Roboto', sans-serif;">@Model.name</h1>
 
 @if (Model.Images != null && Model.Images.Any())
 {
-    <div id="carCarousel" class="carousel slide my-4" data-bs-ride="carousel" style="width: 85%; margin: 0 auto; background-color: #444745; padding: 10px; border-radius: 8px;">
+    <div id="carCarousel" class="carousel slide my-4" data-bs-ride="carousel" style="width: 80%; margin: 0 auto; background-color: #444745; padding: 10px; border-radius: 8px;">
         <div class="carousel-indicators">
             @{
                 var imageList = Model.Images.ToList();
                 for (int i = 0; i < imageList.Count; i++)
                 {
-                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="true"></button>
+                    <button type="button" data-bs-target="#carCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="true" aria-label="Slide @i"></button>
                 }
             }
         </div>
@@ -30,17 +29,15 @@
             @for (int i = 0; i < imageList.Count; i++)
             {
                 <div class="carousel-item @(i == 0 ? "active" : "")">
-                    <img src="@imageList[i].Url" class="d-block w-100" alt="@Model.name" style="height: auto; max-height: 500px; object-fit: contain;" />
+                    <img src="@imageList[i].Url" class="d-block w-100" alt="@Model.name" style="height: 400px; object-fit: cover; border-radius: 8px;">
                 </div>
             }
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev" style="background-color: #353836; width: 50px;">
+        <button class="carousel-control-prev" type="button" data-bs-target="#carCarousel" data-bs-slide="prev" style="background-color: rgba(0, 0, 0, 0.5);">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
         </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next" style="background-color: #353836; width: 50px;">
+        <button class="carousel-control-next" type="button" data-bs-target="#carCarousel" data-bs-slide="next" style="background-color: rgba(0, 0, 0, 0.5);">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
         </button>
     </div>
 }
@@ -49,85 +46,120 @@ else
     <p>Немає зображень для показу.</p>
 }
 
-<div class="characteristics mt-4" style="font-size: 0.9rem; display: flex; justify-content: space-between; gap: 20px; margin-left: 10%; margin-right: 10%; flex-wrap: wrap;">
+<div class="characteristics mt-4" style="font-size: 1rem; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px;">
     <!-- Перша колонка характеристик -->
-    <div class="column" style="flex: 1; min-width: 280px;">
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/cost.png" alt="Cost per day" style="width: 36px; height: 36px; margin-right: 10px;">
+    <div class="column" style="flex: 1 1 calc(50% - 20px); display: flex; flex-direction: column; gap: 15px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/cost.png" alt="Cost per day" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Ціна за добу:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Ціна за добу: @Model.price ₴</div>
+            <span class="text-secondary" style="font-size: 1.2rem; color: #007bff;">@Model.price ₴</span>
         </div>
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/seat.png" alt="Seats" style="width: 36px; height: 36px; margin-right: 10px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/seat.png" alt="Seats" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Кількість сидінь:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Кількість сидінь: @Model.seatingCapacity</div>
+            <span class="text-secondary" style="font-size: 1.2rem;">@Model.seatingCapacity</span>
         </div>
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/body.png" alt="Body" style="width: 36px; height: 36px; margin-right: 10px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/body.png" alt="Body" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Тип кузова:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Тип кузова: @Model.bodyType</div>
+            <span class="text-secondary" style="font-size: 1.2rem;">@Model.bodyType</span>
         </div>
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/horse.png" alt="Horsepower" style="width: 36px; height: 36px; margin-right: 10px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/engine.png" alt="Engine" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Об'єм двигуна:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Кількість сил: @Model.horsepower</div>
+            <span class="text-secondary" style="font-size: 1.2rem;">@Model.engineDisplacement л</span>
         </div>
-
-        <!-- Кнопка "Повернутися на головну" під першою колонкою -->
-        <p class="text-center mt-3"><a class="btn btn-secondary" asp-controller="Home" asp-action="Index">На головну </a></p>
+        <div class="text-center mt-3">
+            <a class="btn btn-secondary btn-sm" asp-controller="Home" asp-action="Index" style="padding: 8px 20px;">На головну</a>
+        </div>
     </div>
 
     <!-- Друга колонка характеристик -->
-    <div class="column" style="flex: 1; min-width: 280px;">
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/engine.png" alt="Engine" style="width: 36px; height: 36px; margin-right: 10px;">
+    <div class="column" style="flex: 1 1 calc(50% - 20px); display: flex; flex-direction: column; gap: 15px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/horse.png" alt="Power" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Кількість сил:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Об'єм двигуна: @Model.engineDisplacement л</div>
+            <span class="text-secondary" style="font-size: 1.2rem;">@Model.horsepower HP</span>
         </div>
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/fuel.png" alt="Fuel" style="width: 36px; height: 36px; margin-right: 10px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/fuel.png" alt="Fuel" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Тип пального:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Тип пального: @Model.fuelType</div>
+            <span class="text-secondary" style="font-size: 1.2rem;">@Model.fuelType</span>
         </div>
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/color.png" alt="Color" style="width: 36px; height: 36px; margin-right: 10px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/transmission.png" alt="Transmission" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Коробка передач:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Колір: @Model.color</div>
+            <span class="text-secondary" style="font-size: 1.2rem;">@Model.transmission</span>
         </div>
-        <div class="characteristic-item" style="margin-bottom: 15px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); padding: 15px; transition: transform 0.3s ease-in-out;">
-            <div class="icon">
-                <img src="/img/transmission.png" alt="Transmission" style="width: 36px; height: 36px; margin-right: 10px;">
+        <div class="characteristic-item">
+            <div class="d-flex align-items-center">
+                <img src="/img/color.png" alt="Color" style="width: 35px; height: 35px; margin-right: 15px;">
+                <span class="fw-bold" style="font-size: 1.1rem; color: #333;">Колір:</span>
             </div>
-            <div class="text" style="font-weight: 700; color: #080807;">Коробка передач: @Model.transmission</div>
+            <span class="text-secondary" style="font-size: 1.2rem;">@Model.color</span>
         </div>
-
-        <!-- Кнопка "Додати в кошик" під другою колонкою -->
         <div class="text-center mt-3">
             @if (User.Identity != null && User.Identity.IsAuthenticated)
             {
                 @if (Model.CarInCart)
                 {
-                    <p><a class="btn btn-primary" href="@Url.Action("Index", "RentalCart")">Авто в кошику</a></p>
+                    <a class="btn btn-primary btn-sm auto-in-cart-btn" href="@Url.Action("Index", "RentalCart")" style="padding: 8px 20px;">Авто в кошику</a>
                 }
                 else
                 {
-                    <p><a class="btn btn-primary" asp-controller="RentalCart" asp-action="addToCart" asp-route-id="@Model.id">Додати в кошик</a></p>
+                    <a class="btn btn-primary btn-sm add-to-cart-btn" asp-controller="RentalCart" asp-action="addToCart" asp-route-id="@Model.id" style="padding: 8px 20px;">Додати в кошик</a>
                 }
             }
         </div>
     </div>
 </div>
 
+
 <style>
-    .characteristic-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    .characteristic-item {
+        transition: transform 0.3s ease-in-out;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+        .characteristic-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .btn {
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Стиль для кнопки "Авто в кошику" при наведенні */
+    .auto-in-cart-btn:hover {
+        background-color: #007bff; /* Синій */
+        color: #fff; /* Білий текст */
+    }
+
+    /* Стиль для кнопки "Додати до кошика" при наведенні */
+    .add-to-cart-btn:hover {
+        background-color: #28a745; /* Зелений */
+        color: #fff; /* Білий текст */
     }
 </style>

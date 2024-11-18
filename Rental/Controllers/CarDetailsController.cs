@@ -8,12 +8,12 @@ namespace Rental.Controllers
     public class CarDetailsController : Controller
     {
         private readonly IAllCars _carRepository;
-        private readonly RentalCart _rentalCart;  // Додано поле для кошика
+        private readonly RentalCart _rentalCart;  
 
         public CarDetailsController(IAllCars carRepository, RentalCart rentalCart)
         {
             _carRepository = carRepository;
-            _rentalCart = rentalCart;  // Ініціалізуємо поле кошика
+            _rentalCart = rentalCart; 
         }
 
         public IActionResult Index(int id)
@@ -24,16 +24,15 @@ namespace Rental.Controllers
                 return NotFound();
             }
 
-            // Якщо у автомобіля немає зображень, додаємо основне зображення
+            
             if (car.Images == null || !car.Images.Any())
             {
                 car.Images = new List<CarImage>
             {
-                new CarImage { Url = car.img } // Використовуємо основне зображення
+                new CarImage { Url = car.img } 
             };
             }
 
-            // Перевіряємо, чи є автомобіль у кошику
             var carInCart = _rentalCart.getRentalItems().Any(i => i.car.id == id);
             car.CarInCart = carInCart;
 

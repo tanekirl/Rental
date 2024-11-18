@@ -2,142 +2,104 @@
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Це гарантує, що висота тіла буде рівна висоті вікна */
-    background: linear-gradient(180deg, #6a6e6c, #808783);
-    color: #e0e0e0;
+    min-height: 100vh;
+    background-color: #e0e0e0; /* Трохи темніший фон */
+    color: #000; /* Чорний текст */
+    font-family: 'Roboto', sans-serif; /* Додаємо шрифт Roboto */
 }
 
 h1, h2, h3, p {
-    color: #e0e0e0;
+    color: #000; /* Чорний текст */
 }
 
+/* Лінки */
 a {
-    color: #e6b700; /* Теплий жовтий, менш яскравий */
+    color: #000; /* Чорний текст */
+    text-decoration: none;
+    transition: transform 0.2s;
 }
 
-    a.btn-warning {
-        color: #ffffff;
-        background-color: #e6b700; /* Зменшений яскравий жовтий */
-        border-color: #e6b700;
+    a:hover {
+        transform: scale(1.1); /* Збільшення тексту при наведенні */
     }
 
+/* Кнопки */
 .btn {
-    margin-top: 10px;
+    background-color: #fff; /* Білі кнопки */
+    color: #000; /* Чорний текст */
+    border: 1px solid #000; /* Чорний контур */
+    transition: background-color 0.3s, color 0.3s;
 }
 
-/* Стилі для навігації */
-nav.navbar {
-    background-color: rgba(20, 20, 20, 0.95); /* Темний фон з прозорістю */
-    border-bottom: 1px solid #555;
-}
-
-.navbar-brand span {
-    font-weight: bold;
-    color: #e6b700; /* Менш яскравий акцент */
-}
-
-/* Кнопки для фільтрації та сортування */
-/* Кнопки для фільтрації та сортування */
-.btn-outline-primary {
-    color: #e6b700; /* Теплий жовтий */
-    border-color: #e6b700; /* Жовте обведення */
-}
-
-    /* Зміна кольору при наведенні на кнопку */
-    .btn-outline-primary:hover {
-        background-color: #e6b700; /* Жовтий фон */
-        color: #333; /* Текст темніший */
-        border-color: #e6b700; /* Жовте обведення залишається */
+    .btn:hover {
+        background-color: #000; /* Чорний фон при наведенні */
+        color: #fff; /* Білий текст при наведенні */
     }
 
+/* Кнопки сортування - зміни на сині */
+.btn-outline-primary {
+    background-color: #fff;
+    border: 1px solid #007bff; /* Синій контур */
+    color: #007bff; /* Синій текст */
+}
 
-/* Оформлення карточок автомобілів */
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff; /* Білий текст при наведенні */
+    }
+
+/* Навігація */
+nav.navbar {
+    background-color: #fff; /* Світлий фон панелі */
+    border-bottom: 2px solid #000; /* Чорна рамка */
+}
+
+.nav-link {
+    color: #000; /* Чорні написи */
+    transition: transform 0.2s;
+}
+
+    .nav-link:hover {
+        transform: scale(1.1); /* Збільшення при наведенні */
+    }
+
+/* Карточки автомобілів */
 .car-card .card {
-    background-color: #455748; /* Темно-сірий фон */
-    color: #e0e0e0;
-    border: none;
+    background-color: #fff; /* Білий фон */
+    color: #000; /* Чорний текст */
+    border: 1px solid #ddd; /* Світлий контур */
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
     transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .car-card:hover .card {
     transform: scale(1.03);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Кнопка "Детальніше" */
-/* Кнопка "Детальніше" */
-/* Кнопка "Детальніше" всередині карточок */
+/* Кнопка "Детальніше" - чорна обводка за замовчуванням, жовта без обводки при наведенні */
 .btn-primary {
-    background-color: #e6b700; /* Жовтий фон */
-    border-color: #e6b700;
-    color: #474f4b; /* Колір тексту, такий самий як колір фону карточки */
-    transition: background-color 0.3s, color 0.3s; /* Плавний перехід */
+    background-color: #fff;
+    border: 1px solid #000; /* Чорна обводка */
+    color: #000;
+    transition: background-color 0.3s, border 0.3s;
 }
 
-    /* Зміна кольору при наведенні на кнопку */
     .btn-primary:hover {
-        background-color: #0093ad; /* Синій колір при наведенні */
-        border-color: #0093ad;
-        color: #ffffff; /* Колір тексту на синьому фоні */
+        background-color: #ffc107; /* Жовтий фон при наведенні */
+        color: #fff; /* Білий текст при наведенні */
+        border: none; /* Без обводки при наведенні */
     }
 
-.characteristics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Два стовпці */
-    gap: 15px; /* Відстань між елементами */
-    margin-left: 5%; /* Відступ зліва */
-    margin-right: 5%; /* Відступ справа */
-    font-family: 'Arial', sans-serif; /* Шрифт для характеристик */
+/* Футер */
+footer {
+    background-color: #e0e0e0; /* Той самий фон, що й основний фон */
+    color: #000;
+    font-family: 'Roboto', sans-serif; /* Додаємо шрифт Roboto */
+    padding: 20px 0;
 }
 
-.characteristic-item {
-    display: flex;
-    align-items: center; /* Вирівнює іконки та текст по вертикалі */
-    gap: 15px; /* Збільшена відстань між іконкою та текстом */
-    background-color: #cccccc; /* Темно-сірий фон для кожного елемента */
-    padding: 10px; /* Відступи всередині прямокутника */
-    border-radius: 10px; /* Заокруглені кути */
-    width: 100%; /* Ширина буде залежати від контейнера */
-    white-space: normal; /* Дозволяє тексту переноситися */
-    word-wrap: break-word; /* Переносить довгі слова на новий рядок */
+/* Відступ для кнопок сортування */
+.sorting-buttons {
+    margin-top: 20px; /* Відступ для сортування */
 }
-
-.icon img {
-    width: 36px; /* Розмір іконки */
-    height: 36px;
-}
-
-.text {
-    font-size: 1.3rem; /* Зменшений розмір шрифта */
-    text-align: left; /* Вирівнює текст ліворуч */
-    white-space: normal; /* Дозволяє тексту переноситися */
-    font-weight: 500; /* Напівжирний шрифт для кращої видимості */
-    color: #000000;
-}
-
-.container {
-    padding-bottom: 10px; /* Відступ для футера */
-}
-
-.btn-custom {
-    background-color: #666666; /* Світліший відтінок сірого */
-    border: none; /* Забрати обводку */
-}
-
-    .btn-custom:focus, .btn-custom:hover {
-        outline: none; /* Забрати обводку при фокусі і наведенні */
-        background-color: #949494; /* Світліший відтінок при наведенні */
-    }
-
-
-
-
-
-
-
-
-
-
-

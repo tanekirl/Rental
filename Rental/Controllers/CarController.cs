@@ -118,7 +118,7 @@ namespace Rental.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategorySelect"] = await GetCategorySelectList(); // додано для передачі списку категорій
+            ViewData["CategorySelect"] = await GetCategorySelectList(); // для передачі списку категорій
             return View(car);
         }
 
