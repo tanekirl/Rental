@@ -47,6 +47,18 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="/RentalCart/">Кошик</a>
                             </li>
+                            @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Car" asp-action="Index">Авто</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="CarImages" asp-action="Index">Фото</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">Заявки</a>
+                                </li>
+                            }
                         }
                     </ul>
                     <ul class="navbar-nav">
@@ -114,3 +126,23 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+        color: #212529;
+    }
+
+    .footer-background {
+        background-color: #f8f9fa;
+        padding: 20px 0;
+    }
+
+        .footer-background a {
+            color: #212529;
+        }
+
+            .footer-background a:hover {
+                color: #007bff;
+            }
+</style>
