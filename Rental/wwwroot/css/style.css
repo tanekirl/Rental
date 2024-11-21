@@ -103,3 +103,14 @@ footer {
 .sorting-buttons {
     margin-top: 20px; /* Відступ для сортування */
 }
+
+/* Прибираємо маркери списку */
+#custom_translate_button {
+    list-style-type: none; /* Видаляє маркер списку */
+    padding-left: 0; /* Видаляє відступ зліва */
+}
+
+
+  
+
+

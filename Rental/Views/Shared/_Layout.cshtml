@@ -9,6 +9,16 @@
     <link href="/css/style.css" rel="stylesheet" type="text/css" />
     <!-- Додавання шрифтів Roboto з Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'uk',
+                includedLanguages: 'uk,en', // Тільки українська та англійська
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+            }, 'google_translate_element');
+        }
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 <body>
     <header>
@@ -38,18 +48,6 @@
                                 <a class="nav-link" href="/RentalCart/">Кошик</a>
                             </li>
                         }
-                        @if (User.Identity != null && User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Car" asp-action="Index">(авто)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="CarImages" asp-action="Index">(фото)</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Orders" asp-action="Index">(заявки)</a>
-                            </li>
-                        }
                     </ul>
                     <ul class="navbar-nav">
                         @if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -63,7 +61,6 @@
                                 </li>
                             }
                         }
-
                         else
                         {
                             <li class="nav-item">
@@ -75,6 +72,12 @@
                         }
                     </ul>
                 </div>
+                <!-- Кнопка перекладу з відступом -->
+                <li id="custom_translate_button" class="translate-button ms-3">
+                    <img src="/img/globe.png" alt="Переклад" width="20" height="20" class="me-2">
+                </li>
+                <!-- Віджет перекладу -->
+                <div id="google_translate_element" class="translate-widget"></div>
             </div>
         </nav>
     </header>
@@ -100,27 +103,14 @@
         </div>
     </footer>
 
+    <script>
+        // Показ віджета перекладу при кліку на кнопку
+        document.getElementById('custom_translate_button').addEventListener('click', function () {
+            const widget = document.getElementById('google_translate_element');
+            widget.style.display = widget.style.display === 'none' ? 'block' : 'none';
+        });
+    </script>
     <script src="/js/bootstrap.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
-<style>
-    body {
-        background-color: #f8f9fa;
-        color: #212529;
-    }
-
-    .footer-background {
-        background-color: #f8f9fa; /* Такий самий колір фону, як у тіла */
-        padding: 20px 0;
-    }
-
-        .footer-background a {
-            color: #212529;
-        }
-
-            .footer-background a:hover {
-                color: #007bff;
-            }
-</style>
