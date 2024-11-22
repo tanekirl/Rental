@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Rental.Data.interfaces;
 using Rental.Data.Models;
+using Rental.Data.Repository;
 using Rental.ViewModels;
 
 namespace Rental.Controllers
@@ -51,6 +52,16 @@ namespace Rental.Controllers
                     cars = _allCars.Cars.Where(i => i.Category.categoryName.Equals("Класика")).OrderBy(i => i.id);
                     currCategory = "Класика";
                 }
+            }
+            if (string.IsNullOrEmpty(category))
+            {
+                cars = _allCars.Cars.Where(c => c.available); // Фільтруємо доступні машини
+                currCategory = "Усі автомобілі";
+            }
+            else
+            {
+                cars = _allCars.Cars
+                    .Where(c => c.Category.categoryName.Equals(category, StringComparison.OrdinalIgnoreCase) && c.available);
             }
 
             var carObj = new CarsListViewModel

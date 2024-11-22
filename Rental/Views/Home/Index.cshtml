@@ -6,20 +6,28 @@
 
 <h1>Найкращі авто</h1>
 <div class="row mt-5 mb-2">
-    @foreach (var car in Model.favCars)
+    @if (Model.favCars != null && Model.favCars.Any())
     {
-        <div class="col-md-4 mb-4 car-card"
-         onclick="openCarDetails('@car.id')">
-            <!-- Додано обробник події для натискання на картку -->
-            <div class="card">
-                <img src="@car.img" class="card-img-top" alt="@car.name">
-                <div class="card-body">
-                    <h5 class="card-title">@car.name</h5>
-                    <p class="card-text">Ціна за добу: @car.price.ToString("0.##") ₴</p>
-                    <!-- Кнопка "Детальніше" залишилась для доступності -->
-                    <a href="@Url.Action("Index", "CarDetails", new { id = car.id })" class="btn btn-primary">Детальніше</a>
+        @foreach (var car in Model.favCars)
+        {
+            <div class="col-md-4 mb-4 car-card" onclick="openCarDetails('@car.id')">
+                <!-- Додано обробник події для натискання на картку -->
+                <div class="card">
+                    <img src="@car.img" class="card-img-top" alt="@car.name">
+                    <div class="card-body">
+                        <h5 class="card-title">@car.name</h5>
+                        <p class="card-text">Ціна за добу: @car.price.ToString("0.##") ₴</p>
+                        <!-- Кнопка "Детальніше" залишилась для доступності -->
+                        <a href="@Url.Action("Index", "CarDetails", new { id = car.id })" class="btn btn-primary">Детальніше</a>
+                    </div>
                 </div>
             </div>
+        }
+    }
+    else
+    {
+        <div class="col-12">
+            <p class="text-center text-muted">Наразі немає доступних автомобілів.</p>
         </div>
     }
 </div>

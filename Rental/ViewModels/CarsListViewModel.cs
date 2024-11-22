@@ -7,5 +7,6 @@ namespace Rental.ViewModels
         public IEnumerable<Car> allCars { get; set; }
 
         public string currCategory { get; set; }
+        public Car Car { get; set; }
     }
 }

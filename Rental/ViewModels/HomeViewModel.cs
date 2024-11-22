@@ -1,4 +1,5 @@
 ﻿using Rental.Data.Models;
+using System.Collections.Generic;
 
 namespace Rental.ViewModels
 {

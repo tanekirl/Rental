@@ -22,7 +22,8 @@
 <div id="carsContainer" class="row mt-5 mb-5">
     @foreach (var car in Model.allCars)
     {
-        <div class="col-md-4 mb-4 car-card"
+        {
+            <div class="col-md-4 mb-4 car-card"
          data-category="@car.Category.categoryName"
          data-price="@car.price"
          onclick="openCarDetails('@car.id')">
@@ -35,6 +36,7 @@
                 </div>
             </div>
         </div>
+        }
     }
 </div>
 
